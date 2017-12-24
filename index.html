@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html ng-app="App" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CryptoHub</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div ng-controller="DashboardController as dCtrl">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-filled" style="height: 50px; margin-top: 25px;">
+                <div class="panel-body">
+                    <span>Hello world.</span>
+                </div>    
+            </div>    
+        </div>
+    </div>
+
+            <div class="row">
+                <br>
+                <div class="col-lg-3 col-xs-4" ng-repeat="currency in dCtrl.currencies" ng-cloak>
+                    <div class="panel panel-filled">
+
+                        <div class="panel-body">
+                            <img src="images/coins/{{ currency.key | uppercase }}.svg" class="img-responsive {{ currency.key | uppercase }}" style="width:50px;height:50px;margin: 0 auto;" alt="{{ currency.key }}">
+                            <h2 class="m-b-none text-center">
+                                <span class="formatCurrency">${{ currency.last_price }}</span>
+                            </h2>
+                            <span class="slight" style="display: block; text-align:center;" ng-cloak>
+                            
+                            <span ng-class="{'text-danger': dCtrl.isNegative(currency.daily_change_percent), 'text-success': !dCtrl.isNegative(currency.daily_change_percent)}">{{ currency.daily_change_percent }}%</span>
+                            <i class="fa fa-play" ng-class="{'text-danger fa-rotate-90': dCtrl.isNegative(currency.daily_change_percent), 'text-success fa-rotate-270': !dCtrl.isNegative(currency.daily_change_percent)}"></i>
+                            </span> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6" ng-repeat="currency in dCtrl.currencies">
+                    <div class="form-group">
+                        <label for="{{currency.key}}" ng-bind="currency.key"></label>
+                        <input type="number" id="{{currency.key}}" ng-model="dCtrl.userCurrencies[currency.key]" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom:50px">
+                <div class="col-xs-6">
+                    <h1 ng-bind="dCtrl.getTotalProfit()"></h1>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Javascripts libraries -->
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/angular.js"></script>
+        <script src="js/socket.io.js"></script>
+        <script src="js/Chart.min.js"></script>
+        <script src="js/angular-chart.min.js"></script>
+        <script src="js/accounting.min.js"></script>
+        <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+        <!-- Angular init -->
+        <script src="app.js"></script>
+        <!-- Angular Controllers -->
+        <script src="controllers/DashboardController.js"></script>
+
+</body>
+
+</html>
